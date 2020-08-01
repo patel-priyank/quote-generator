@@ -1,31 +1,63 @@
 const quoteContainer = document.getElementById('quote-container');
+const quoteTextContainer = document.getElementById('quote-text');
 const quoteText = document.getElementById('quote');
+const authorTextContainer = document.getElementById('quote-author');
 const authorText = document.getElementById('author');
+const btnContainer = document.getElementById('button-container');
 const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
+const errorMsg = document.getElementById('error-message');
 const loader = document.getElementById('loader');
 
-// Show Loader
-function showLoader() {
+const proxyUrl = 'https://peaceful-plains-68186.herokuapp.com/';
+const apiUrl =
+  'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
+const maxErrorsAllowed = 10;
+
+var errorCount = 0;
+
+function showLoadingSpinner() {
   loader.hidden = false;
   quoteContainer.hidden = true;
 }
 
-// Hide Loader
-function hideLoader() {
+function hideLoadingSpinner() {
   if (!loader.hidden) {
     loader.hidden = true;
     quoteContainer.hidden = false;
   }
 }
 
-// Get Quote from API
-async function getQuote() {
-  showLoader();
+function showErrorMessage() {
+  // hide quote & author and show error message
+  errorMsg.hidden = false;
+  quoteTextContainer.hidden = true;
+  authorTextContainer.hidden = true;
 
-  const proxyUrl = 'https://peaceful-plains-68186.herokuapp.com/';
-  const apiUrl =
-    'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
+  // show twitter button and push 'New Quote' button to the end
+  twitterBtn.hidden = true;
+  btnContainer.style.justifyContent = 'flex-end';
+}
+
+function hideErrorMessage() {
+  // hide error message and show quote & author
+  errorMsg.hidden = true;
+  quoteTextContainer.hidden = false;
+  authorTextContainer.hidden = false;
+
+  // show twitter button and add spaces between buttons
+  twitterBtn.hidden = false;
+  btnContainer.style.justifyContent = 'space-between';
+}
+
+async function getQuote() {
+  // if error message is displayed then hide error message and reset error count
+  if (!errorMsg.hidden && errorCount >= maxErrorsAllowed) {
+    errorCount = 0;
+    hideErrorMessage();
+  }
+
+  showLoadingSpinner();
 
   try {
     const response = await fetch(proxyUrl + apiUrl);
@@ -48,14 +80,23 @@ async function getQuote() {
         quoteText.classList.remove('long-quote');
       }
 
-      hideLoader();
+      // once data is set into containers, hide loader and reset error count
+      hideLoadingSpinner();
+      errorCount = 0;
     }
   } catch (error) {
-    getQuote();
+    if (errorCount < maxErrorsAllowed) {
+      // if error is encountered, increase error count and retry fetching quote
+      ++errorCount;
+      getQuote();
+    } else {
+      // if max number of errors are encountered, hide loader and show error message
+      hideLoadingSpinner();
+      showErrorMessage();
+    }
   }
 }
 
-// Tweet Quote
 function tweetQuote() {
   const quote = quoteText.innerText;
   const author = authorText.innerText;
@@ -69,3 +110,4 @@ twitterBtn.addEventListener('click', tweetQuote);
 
 // On Load
 getQuote();
+hideErrorMessage();

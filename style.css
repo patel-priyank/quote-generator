@@ -84,6 +84,12 @@ button:active {
   font-size: 1.5rem;
 }
 
+.error-message {
+  color: red;
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+
 /* Loader */
 .loader {
   border: 16px solid #f3f3f3;
@@ -107,7 +113,7 @@ button:active {
 /* Media Query: Tablet or smaller */
 @media screen and (max-width: 1000px) {
   .quote-container {
-    margin: auto 10px;
+    margin: 10px 10px;
   }
 
   .quote-text {

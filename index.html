@@ -4,11 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quote Generator</title>
-    <link
-      rel="icon"
-      type="image/png"
-      href="http://www.google.com/s2/favicons?domain=css-tricks.com"
-    />
+    <link rel="icon" type="image/png" href="./quote.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
@@ -19,18 +15,25 @@
   <body>
     <div class="quote-container" id="quote-container">
       <!-- Quote Element -->
-      <div class="quote-text">
+      <div class="quote-text" id="quote-text">
         <i class="fas fa-quote-left"></i>
         <span id="quote"></span>
       </div>
 
       <!-- Author -->
-      <div class="quote-author">
+      <div class="quote-author" id="quote-author">
         <span id="author"></span>
       </div>
 
+      <!-- Error message -->
+      <div class="error-message" id="error-message">
+        We tried multiple times, but sometimes it's just not our day.
+        <br />
+        Please try again!
+      </div>
+
       <!-- Buttons -->
-      <div class="button-container">
+      <div class="button-container" id="button-container">
         <button class="twitter-button" id="twitter" title="Tweet this!">
           <i class="fab fa-twitter"></i>
         </button>
