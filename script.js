@@ -80,8 +80,12 @@ async function getQuote() {
         quoteText.classList.remove('long-quote');
       }
 
-      // once data is set into containers, hide loader and reset error count
+      // once data is set into containers, hide loader and scroll to top
       hideLoadingSpinner();
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0;
+      
+      // reset error count
       errorCount = 0;
     }
   } catch (error) {
