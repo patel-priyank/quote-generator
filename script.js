@@ -14,7 +14,7 @@ const apiUrl =
   'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
 const maxErrorsAllowed = 10;
 
-var errorCount = 0;
+let errorCount = 0;
 
 function showLoadingSpinner() {
   loader.hidden = false;
@@ -83,7 +83,7 @@ async function getQuote() {
       // once data is set into containers, hide loader and scroll to top
       hideLoadingSpinner();
       document.body.scrollTop = 0; // For Safari
-      document.documentElement.scrollTop = 0;
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
       
       // reset error count
       errorCount = 0;
@@ -113,5 +113,5 @@ newQuoteBtn.addEventListener('click', getQuote);
 twitterBtn.addEventListener('click', tweetQuote);
 
 // On Load
-getQuote();
 hideErrorMessage();
+getQuote();
