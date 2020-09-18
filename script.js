@@ -73,13 +73,6 @@ async function getQuote() {
       authorText.innerText =
         data.quoteAuthor === '' ? 'Unknown' : data.quoteAuthor;
 
-      // reduce font size for long quotes
-      if (data.quoteText.length > 120) {
-        quoteText.classList.add('long-quote');
-      } else {
-        quoteText.classList.remove('long-quote');
-      }
-
       // once data is set into containers, hide loader and scroll to top
       hideLoadingSpinner();
       document.body.scrollTop = 0; // For Safari
